@@ -1,0 +1,41 @@
+stages:
+  - test
+  - analysis
+
+pytest-coverage:
+  stage: test
+  image: python:3.10
+  script:
+    - pip install poetry
+    - poetry config virtualenvs.create false
+    - poetry install
+    - poetry run pytest --cov --cov-report xml --cov-report term-missing --cov-branch --junitxml=test_report.xml
+  artifacts:
+    when: always
+    paths:
+      - coverage.xml
+      - test_report.xml
+    reports:
+      junit: test_report.xml
+  only:
+    - merge_requests
+    - main
+    - develop
+
+sonarqube-analysis:
+  stage: analysis
+  image: 
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  dependencies:
+    - pytest-coverage
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  only:
+    - merge_requests
+    - main
+    - develops

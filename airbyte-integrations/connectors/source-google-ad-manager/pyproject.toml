@@ -1,0 +1,31 @@
+[build-system]
+requires = [ "poetry-core>=1.0.0",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+version = "0.1.0"
+name = "source-google-ad-manager"
+description = "Source implementation for google-ad-manager."
+authors = [ "Airbyte <contact@airbyte.io>",]
+license = "MIT"
+readme = "README.md"
+documentation = "https://docs.airbyte.com/integrations/sources/google-ad-manager"
+homepage = "https://airbyte.com"
+repository = "https://github.com/airbytehq/airbyte"
+packages = [ { include = "source_google_ad_manager" }, {include = "main.py" } ]
+
+[tool.poetry.dependencies]
+python = "^3.10,<4.0"
+airbyte-cdk = "^4.3.2"
+google-auth = "^2.33.0"
+googleads = "^42.0.0"
+
+
+[tool.poetry.scripts]
+source-google-ad-manager = "source_google_ad_manager.run:run"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+pytest-mock = "^3.14.0"
+requests-mock = "^1.12.1"
+
