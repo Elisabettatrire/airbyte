@@ -28,11 +28,10 @@ def test_check_valid_network_code(mocker):
     }
 
     config_mock.__getitem__.side_effect = lambda key: config.get(key)
-    assert source.check_connection(logger_mock, config_mock) == (True, None)
+    assert source.check(logger_mock, config_mock) == (True, None)
     network_service.getAllNetworks.assert_called_once()
 
 
-# TODO REFACTOR Those test can be grouped and parametrized
 def test_wrong_network_code(mocker):
     _, network_service = patch_ad_manager_client(mocker)
 
@@ -44,7 +43,7 @@ def test_wrong_network_code(mocker):
     }
 
     config_mock.__getitem__.side_effect = lambda key: config.get(key)
-    assert source.check_connection(logger_mock, config_mock) == (
+    assert source.check(logger_mock, config_mock) == (
         False, "Network 'esoteric_network_code' not found. Available networks: ['network_1', 'network_2']"
     )
     network_service.getAllNetworks.assert_called_once()
@@ -63,16 +62,9 @@ def test_connection_issues(mocker):
     }
 
     config_mock.__getitem__.side_effect = lambda key: config.get(key)
-    assert source.check_connection(logger_mock, config_mock) == (
+    assert source.check(logger_mock, config_mock) == (
         False, "An exception occurred: Any kind of client error"
     )
     network_service.getAllNetworks.assert_not_called()
 
-
-def test_streams(mocker):
-    source = SourceGoogleAdManager()
-    config_mock = MagicMock()
-    streams = source.streams(config_mock)
-    # TODO: replace this with your streams number
-    expected_streams_number = 2
-    assert len(streams) == expected_streams_number
+d

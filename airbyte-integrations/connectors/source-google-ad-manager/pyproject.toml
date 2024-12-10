@@ -19,7 +19,7 @@ python = "^3.10,<4.0"
 airbyte-cdk = "^4.3.2"
 google-auth = "^2.33.0"
 googleads = "^42.0.0"
-
+pandas = "^2.0"
 
 [tool.poetry.scripts]
 source-google-ad-manager = "source_google_ad_manager.run:run"
